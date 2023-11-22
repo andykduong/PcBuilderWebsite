@@ -2,7 +2,7 @@
 {% block content %}
   <h1>Home Page</h1>
   <p>Welcome to Build a PC!</p>
-  <table class="table">
+  <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col"></th>
@@ -13,35 +13,185 @@
         </tr>
       </thead>
       <tbody>
+        <!-- CPU -->
         <tr>
           <th scope="row">CPU</th>
+          <td>
+            {% if cpu %}
+              {{ cpu }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add CPU
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- CPU Cooler -->
         <tr>
           <th scope="row">CPU Cooler</th>
+          <td>
+            {% if cpuCooler %}
+              {{ cpuCooler }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add CPU Cooler
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+        
+
+        <!-- MOBO -->
         <tr>
           <th scope="row">Motherboard</th>
+          <td>
+            {% if mobo %}
+              {{ mobo }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Motherboard
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- GPU -->
         <tr>
           <th scope="row">Graphics Card</th>
+          <td>
+            {% if gpu %}
+              {{ gpu }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Graphics Card
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- MEM -->
         <tr>
           <th scope="row">Memory</th>
+          <td>
+            {% if ram %}
+              {{ ram }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Memory
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- Storage -->
         <tr>
           <th scope="row">Storage</th>
+          <td>
+            {% if storage %}
+              {{ storage }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Storage
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- PSU -->
         <tr>
           <th scope="row">Power Supply</th>
+          <td>
+            {% if psu %}
+              {{ psu }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Power Supply
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- Case -->
         <tr>
           <th scope="row">Case</th>
+          <td>
+            {% if case %}
+              {{ case }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Case
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- Fans -->
         <tr>
           <th scope="row">Fans</th>
+          <td>
+            {% if fan %}
+              {{ fan }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add Fans
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
+
+        <!-- AIO -->
         <tr>
           <th scope="row">AIO</th>
+          <td>
+            {% if aio %}
+              {{ aio }}
+              <!-- picture -->
+            {% else %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                + Add AIO
+              </button>
+            {% endif %}
+          </td>
+          <td> <!-- Brand -->
+            -
+          </td>
         </tr>
       </tbody>
   </table>

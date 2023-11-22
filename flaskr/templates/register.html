@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mb-3">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="form-control-lg">Join Today</legend>
+                <div class="form-group">
+                    {{ form.username.label() }}
+                    {{ form.username }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}
