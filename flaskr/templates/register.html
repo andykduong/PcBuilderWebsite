@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="mb-3">
-        <form action="" method="POST">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="form-control-lg">Join Today</legend>
-                <div class="form-group">
-                    {{ form.username.label() }}
-                    {{ form.username }}
+        <div class="container">
+            <div class="col-md-6">
+                <h2 class="my-5 border-bottom border-secondary-subtle pb-2">Join Today</h2>
+                <form action="" method="POST" class="form-control">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-control-label") }}
+                        {{ form.username(class="form-control form-control-lg") }}
+                        <div class="form-text">Must be 2-16 characters long</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-control-label") }}
+                        {{ form.email( class="form-control form-control-lg") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-control-label") }}
+                        {{ form.password(class="form-control form-control-lg") }}
+                        <div class="form-text">Must be 8-24 characters long</div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.confirm_pass.label(class="form-control-label") }}
+                        {{ form.confirm_pass(class="form-control form-control-lg") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-outline-info") }}
+                    </div>
+                </form>
+                <div class="border-top" style="margin-top: 1rem;">
+                    <small class="text-muted"> Already Have An Account? -> <a href="{{ url_for('login') }}">Login</a></small>
                 </div>
-            </fieldset>
-        </form>
+            </div>
+        </div>
+     
     </div>
 {% endblock content %}
