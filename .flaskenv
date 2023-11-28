@@ -1,1 +1,2 @@
 FLASK_APP=pcbuilderwebsite.py
+FLASK_DEBUG=1
