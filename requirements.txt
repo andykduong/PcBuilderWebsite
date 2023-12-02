@@ -1,0 +1,4 @@
+flask-sqlalchemy
+email_validator
+WTForms
+Flask-WTF
