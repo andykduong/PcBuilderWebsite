@@ -1,17 +1,18 @@
 from flask import Flask
+from config import Config
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String
+from flask_migrate import Migrate
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__, static_url_path='/static')
+app.config.from_object(Config);
 
-
-app.config['SECRET_KEY'] = 'f4dccf5e141748b5efe91de31d91491c'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+Bcrypt = Bcrypt(app)
 
-from flaskr import routes
-from .models import CPU_db, CPUCooler_db, Mobo_db, GPU_db, RAM_db, drive_db, PSU_db, case_db, fans_db
+from flaskr import routes, models
+
 
 

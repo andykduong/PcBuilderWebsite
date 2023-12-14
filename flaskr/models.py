@@ -10,20 +10,20 @@ class User(db.Model):
     def __repr__(self):
         return f"User(username={self.username}, email={self.email}, image_pfp={self.image_pfp})"
 
-class CPU_db(db.Model):
+class CPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
     clockSpeed = db.Column(db.Float(precision=1), nullable=False)
 
-class CPUCooler_db(db.Model):
+class CPUCooler(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
     size = db.Column(db.Integer)
     rpm = db.Column(db.String(20))
 
-class Mobo_db(db.Model):
+class Mobo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -32,7 +32,7 @@ class Mobo_db(db.Model):
     socket_type = db.Column(db.String(20), nullable=False)#am4, am5, LGA1700 etc
     form_factor = db.Column(db.String(10), nullable=False)#atx, matx, etc
 
-class GPU_db(db.Model):
+class GPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -42,7 +42,7 @@ class GPU_db(db.Model):
     gpu_len = db.Column(db.Integer, nullable=False)
 
 
-class RAM_db(db.Model):
+class RAM(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -50,7 +50,7 @@ class RAM_db(db.Model):
     modules = db.Column(db.String(20)) # 2 x 8, 16
     cas_latency = db.Column(db.Integer)
 
-class drive_db(db.Model):
+class drive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -58,7 +58,7 @@ class drive_db(db.Model):
     drive_type = db.Column(db.String(10))
     interface = db.Column(db.String(20)) #M.2 PCIe 4.0x4
 
-class PSU_db(db.Model):
+class PSU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -67,7 +67,7 @@ class PSU_db(db.Model):
     wattage = db.Column(db.Integer)
     mod = db.Column(db.String(10))
 
-class case_db(db.Model):
+class case(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -75,7 +75,7 @@ class case_db(db.Model):
     color = db.Column(db.String(20))
     side_panel = db.Column(db.String(25))
 
-class fans_db(db.Model):
+class fans(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
