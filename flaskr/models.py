@@ -1,14 +1,26 @@
-from flaskr import db
+from flaskr import db, Bcrypt, login
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_pfp = db.Column(db.String(16), nullable=False, default='images/default_pfp.jpeg')
     password = db.Column(db.String(60), nullable=False)
 
+    def set_pass(self, password):
+        self.password = Bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_pass(self, password):
+        return Bcrypt.check_password_hash(self.password, password)
+   
     def __repr__(self):
-        return f"User(username={self.username}, email={self.email}, image_pfp={self.image_pfp})"
+        return f"User(username={self.username}, email={self.email}, image_pfp={self.image_pfp}, password={self.password})"
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 
 class CPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
