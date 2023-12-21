@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for cpu in cpu_entries %}
+        <tr>
+            <td>Model: {{ cpu.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}
