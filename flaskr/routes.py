@@ -10,7 +10,39 @@ from flask_login import current_user, login_user, logout_user
 
 @app.route('/index')
 def index():
-    return render_template("index.html")
+    return render_template("index.html",)
+
+@app.route('/pick_<pc_part>')
+def part_picker(pc_part):
+    if pc_part == 'cpu':
+        cpu_entries = CPU.query.all()
+        return render_template('parts/cpu.html', cpu_entries=cpu_entries)
+    if pc_part == 'cpucooler':
+        cpucooler_entries = CPUCooler.query.all()
+        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries)
+    if pc_part == 'mobo':
+        mobo_entries = Mobo.query.all()
+        return render_template('parts/mobo.html', mobo_entries=mobo_entries)
+    if pc_part == 'gpu':
+        gpu_entries = GPU.query.all()
+        return render_template('parts/gpu.html', gpu_entries=gpu_entries)
+    if pc_part == 'ram':
+        ram_entries = RAM.query.all()
+        return render_template('parts/ram.html', ram_entries=ram_entries)
+    if pc_part == 'drive':
+        drive_entries = drive.query.all()
+        return render_template('parts/drive.html', drive_entries=drive_entries)
+    if pc_part == 'psu':
+        psu_entries = PSU.query.all()
+        return render_template('parts/psu.html', psu_entries=psu_entries)
+    if pc_part == 'case':
+        case_entries = case.query.all()
+        return render_template('parts/case.html', case_entries=case_entries)
+    if pc_part == 'fans':
+        fans_entries = fans.query.all()
+        return render_template('parts/fans.html', fans_entries=fans_entries)
+    
+    return "Invalid PC Component", 404
 
 @app.route('/about')
 def about():

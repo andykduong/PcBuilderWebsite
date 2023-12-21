@@ -28,11 +28,14 @@ class CPU(db.Model):
     price = db.Column(db.Float(precision=2))
     clockSpeed = db.Column(db.Float(precision=1), nullable=False)
 
+    def __repr__(self):
+        return f"CPU(model={self.model}, price={self.price}, clockSpeed={self.clockSpeed})"
+
 class CPUCooler(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    size = db.Column(db.Integer)
+    size = db.Column(db.Integer, nullable=True, default=None)
     rpm = db.Column(db.String(20))
 
 class Mobo(db.Model):

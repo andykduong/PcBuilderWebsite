@@ -23,9 +23,9 @@
               {{ cpu }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='cpu') }}" class="btn btn-outline-info btn-sm">
                 + Add CPU
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -41,9 +41,9 @@
               {{ cpuCooler }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='cpucooler') }}" class="btn btn-outline-info btn-sm">
                 + Add CPU Cooler
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -60,9 +60,9 @@
               {{ mobo }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='mobo') }}" class="btn btn-outline-info btn-sm">
                 + Add Motherboard
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -78,9 +78,9 @@
               {{ gpu }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='gpu') }}" class="btn btn-outline-info btn-sm">
                 + Add Graphics Card
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -96,9 +96,9 @@
               {{ ram }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='ram') }}" class="btn btn-outline-info btn-sm">
                 + Add Memory
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -114,9 +114,9 @@
               {{ storage }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='drive') }}" class="btn btn-outline-info btn-sm">
                 + Add Storage
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -132,9 +132,9 @@
               {{ psu }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='psu') }}" class="btn btn-outline-info btn-sm">
                 + Add Power Supply
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -150,9 +150,9 @@
               {{ case }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='case') }}" class="btn btn-outline-info btn-sm">
                 + Add Case
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->
@@ -168,9 +168,9 @@
               {{ fan }}
               <!-- picture -->
             {% else %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <a href="{{ url_for('part_picker', pc_part='fans') }}" class="btn btn-outline-info btn-sm">
                 + Add Fans
-              </button>
+              </a>
             {% endif %}
           </td>
           <td> <!-- Brand -->

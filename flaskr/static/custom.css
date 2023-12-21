@@ -1,0 +1,16 @@
+.content_wrapper{
+    display: flex;
+
+}
+
+.main_content{
+    background-color: tan; 
+    flex-grow: 1;
+}
+
+.sidebar{
+    background-color: lightblue; 
+    padding-left: 1rem;
+    width: 240px;
+
+}
