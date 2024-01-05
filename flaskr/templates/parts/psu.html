@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for psu in psu_entries %}
+        <tr>
+            <td>Model: {{ psu.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for ram in ram_entries %}
+        <tr>
+            <td>Model: {{ ram.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

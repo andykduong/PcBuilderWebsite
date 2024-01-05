@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for drive in drive_entries %}
+        <tr>
+            <td>Model: {{ drive.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

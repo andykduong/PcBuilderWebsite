@@ -1,10 +1,21 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for cpu in cpu_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ cpu.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Clock Speed</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for cpu in cpu_entries if cpu.price and (cpu.price > min_value) %}
+            <tr>
+                <td>Model: {{ cpu.model }}</td>
+                <td>${{ cpu.price }}</td>
+                <td>Clock Speed: {{ cpu.clockSpeed }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

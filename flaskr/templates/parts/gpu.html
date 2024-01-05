@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for gpu in gpu_entries %}
+        <tr>
+            <td>Model: {{ gpu.model + " " +(gpu.chipset if gpu.chipset else '')}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

@@ -42,57 +42,60 @@ class Mobo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    mem_slot = db.Column(db.Integer, nullable=False)
-    mem_speed = db.Column(db.Integer, nullable=False)
-    socket_type = db.Column(db.String(20), nullable=False)#am4, am5, LGA1700 etc
-    form_factor = db.Column(db.String(10), nullable=False)#atx, matx, etc
+    mem_slot = db.Column(db.Integer, nullable=True, default=None)
+    socket_type = db.Column(db.String(20), nullable=True, default=None)#am4, am5, LGA1700 etc
+    form_factor = db.Column(db.String(10), nullable=True, default=None)#atx, matx, etc
 
 class GPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    model = db.Column(db.String(50), unique=True, nullable=False)
+    model = db.Column(db.String(100), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    #pcie_gen = db.Column(db.String(10), nullable=False)
-    mem = db.Column(db.Integer, nullable=False)
-    core_clock = db.Column(db.Integer, nullable=False)
-    gpu_len = db.Column(db.Integer, nullable=False)
+    chipset = db.Column(db.String(50), nullable=True)
+    mem = db.Column(db.Integer, nullable=True, default=None)
+    core_clock = db.Column(db.Integer, nullable=True, default=None)
+    gpu_len = db.Column(db.Integer, nullable=True, default=None)
+    
+    def __repr__(self):
+        return f"GPU(model={self.model}, price={self.price}, chipset={self.chipset})"
+
 
 
 class RAM(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    speed = db.Column(db.String(20)) #ddr4-3600
-    modules = db.Column(db.String(20)) # 2 x 8, 16
-    cas_latency = db.Column(db.Integer)
+    speed = db.Column(db.String(20), nullable=True, default=None) #ddr4-3600
+    modules = db.Column(db.String(20), nullable=True, default=None) # 2 x 8, 16
+    cas_latency = db.Column(db.Integer, nullable=True, default=None)
 
 class drive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    capacity = db.Column(db.Integer)
-    drive_type = db.Column(db.String(10))
-    interface = db.Column(db.String(20)) #M.2 PCIe 4.0x4
+    capacity = db.Column(db.Integer, nullable=True, default=None)
+    drive_type = db.Column(db.String(10), nullable=True, default=None)
+    interface = db.Column(db.String(20), nullable=True, default=None) #M.2 PCIe 4.0x4
 
 class PSU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
     form_factor = db.Column(db.String(5))
-    effi = db.Column(db.String(10))
-    wattage = db.Column(db.Integer)
-    mod = db.Column(db.String(10))
+    effi = db.Column(db.String(10), nullable=True, default=None)
+    wattage = db.Column(db.Integer, nullable=True, default=None)
+    mod = db.Column(db.String(10), nullable=True, default=None)
 
 class case(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
-    type = db.Column(db.String(20))
-    color = db.Column(db.String(20))
-    side_panel = db.Column(db.String(25))
+    type = db.Column(db.String(20), nullable=True, default=None)
+    color = db.Column(db.String(20), nullable=True, default=None)
+    side_panel = db.Column(db.String(25), nullable=True, default=None)
 
 class fans(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
-    price = db.Column(db.Float(precision=2))
-    size = db.Column(db.Integer)
-    rpm = db.Column(db.String(20))
+    price = db.Column(db.Float(precision=2), nullable=True, default=None)
+    size = db.Column(db.Integer, nullable=True, default=None)
+    rpm = db.Column(db.String(20), nullable=True, default=None)

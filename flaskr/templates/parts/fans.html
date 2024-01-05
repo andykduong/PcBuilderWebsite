@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for fans in fans_entries %}
+        <tr>
+            <td>Model: {{ fans.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

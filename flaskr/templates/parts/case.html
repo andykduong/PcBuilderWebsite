@@ -1,0 +1,10 @@
+{% extends 'parts_base.html' %}
+{% block parts_content %}
+<table class="table">
+    {% for case in case_entries %}
+        <tr>
+            <td>Model: {{ case.model }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock parts_content %}

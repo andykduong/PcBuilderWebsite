@@ -4,11 +4,36 @@
     <h1>Choose a {{ part }}</h1>
     <p>Welcome to Build a PC!</p>
   </div>
-<div class="content-wrapper">
-    <div class="row">
+<div class="content_wrapper">
+    <div class="row gy-3">
         <div class="sidebar d-none d-lg-block">
-                Side bar
+            <h1>Filters</h1>
+            <form action="" method="POST">
+                <div class="form-group">
+                    <label for="rangeSlider" id="minValueDisplay">Minimum Price: {{ min_value }}</label>
+                    <input type="range" class="form-control-range" min="0" max="{{ part.query.order_by(part.price.desc()).first().price }}" value="{{ min_value }}" id="minValSlider" name="minSlider">
+                </div>
+
+                <button class="btn btn-primary">Filter</button>
+            </form>
         </div>
+        <script>
+            function updateSliderValue() {
+                var slider = document.getElementById('minValSlider');
+                var display = document.getElementById('minValueDisplay');
+                display.textContent = "Minimum Price: " + slider.value;
+                
+                // Update URL without reloading the page
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?min=' + slider.value;
+                window.history.pushState({path:newurl}, '', newurl);
+            }
+            
+            var slider = document.getElementById('minValSlider');
+            if (slider){
+                slider.oninput = updateSliderValue;
+                updateSliderValue();
+            }
+        </script>
         <div class="main_content">
             {% block parts_content %}
                 

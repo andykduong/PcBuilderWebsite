@@ -12,35 +12,43 @@ from flask_login import current_user, login_user, logout_user
 def index():
     return render_template("index.html",)
 
-@app.route('/pick_<pc_part>')
+@app.route('/pick_<pc_part>', methods=['GET', "POST"])
 def part_picker(pc_part):
+    
+
+    if request.method == 'POST':
+        min_value = float(request.form.get('minSlider', default=0))
+    else:
+        min_value = float(request.args.get('min', default=0))
+
+    print(min_value)
     if pc_part == 'cpu':
         cpu_entries = CPU.query.all()
-        return render_template('parts/cpu.html', cpu_entries=cpu_entries)
+        return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, part=CPU)
     if pc_part == 'cpucooler':
         cpucooler_entries = CPUCooler.query.all()
-        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries)
+        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCooler)
     if pc_part == 'mobo':
         mobo_entries = Mobo.query.all()
-        return render_template('parts/mobo.html', mobo_entries=mobo_entries)
+        return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=Mobo)
     if pc_part == 'gpu':
         gpu_entries = GPU.query.all()
-        return render_template('parts/gpu.html', gpu_entries=gpu_entries)
+        return render_template('parts/gpu.html', gpu_entries=gpu_entries, min_value=min_value, part=GPU)
     if pc_part == 'ram':
         ram_entries = RAM.query.all()
-        return render_template('parts/ram.html', ram_entries=ram_entries)
+        return render_template('parts/ram.html', ram_entries=ram_entries, min_value=min_value, part=RAM)
     if pc_part == 'drive':
         drive_entries = drive.query.all()
-        return render_template('parts/drive.html', drive_entries=drive_entries)
+        return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=drive)
     if pc_part == 'psu':
         psu_entries = PSU.query.all()
-        return render_template('parts/psu.html', psu_entries=psu_entries)
+        return render_template('parts/psu.html', psu_entries=psu_entries, min_value=min_value, part=PSU)
     if pc_part == 'case':
         case_entries = case.query.all()
-        return render_template('parts/case.html', case_entries=case_entries)
+        return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=case)
     if pc_part == 'fans':
         fans_entries = fans.query.all()
-        return render_template('parts/fans.html', fans_entries=fans_entries)
+        return render_template('parts/fans.html', fans_entries=fans_entries, min_value=min_value, part=fans)
     
     return "Invalid PC Component", 404
 
