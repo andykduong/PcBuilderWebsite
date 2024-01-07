@@ -18,12 +18,24 @@ def part_picker(pc_part):
 
     if request.method == 'POST':
         min_value = float(request.form.get('minSlider', default=0))
+        manufacturer = request.form.get('manuDropdown', default='')
     else:
         min_value = float(request.args.get('min', default=0))
+        manufacturer = request.args.get('manuDropdown', default='')
 
-    print(min_value)
+
+
     if pc_part == 'cpu':
-        cpu_entries = CPU.query.all()
+        cpu_entries = CPU.query
+
+        if min_value:
+            cpu_entries = cpu_entries.filter(CPU.price >= min_value) 
+
+        if manufacturer:
+            manufacturer_pattern = f"%{manufacturer}%"
+            cpu_entries = cpu_entries.filter(CPU.model.like(manufacturer_pattern))
+
+        cpu_entries = cpu_entries.all()
         return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, part=CPU)
     if pc_part == 'cpucooler':
         cpucooler_entries = CPUCooler.query.all()

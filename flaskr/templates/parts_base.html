@@ -12,6 +12,14 @@
                 <div class="form-group">
                     <label for="rangeSlider" id="minValueDisplay">Minimum Price: {{ min_value }}</label>
                     <input type="range" class="form-control-range" min="0" max="{{ part.query.order_by(part.price.desc()).first().price }}" value="{{ min_value }}" id="minValSlider" name="minSlider">
+
+                    <label for="manuDropdown" id="manufac">Manufacturer</label>
+                    <select class="form-select" name="manuDropdown">
+                        <option value="">Any</option>
+                        <option value="amd">AMD</option>
+                        <option value="intel">Intel</option>
+                      </select>
+                      
                 </div>
 
                 <button class="btn btn-primary">Filter</button>
