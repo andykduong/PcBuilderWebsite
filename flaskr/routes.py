@@ -36,31 +36,55 @@ def part_picker(pc_part):
             cpu_entries = cpu_entries.filter(CPU.model.like(manufacturer_pattern))
 
         cpu_entries = cpu_entries.all()
-        return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, part=CPU)
+        return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, manufacturer=manufacturer, part=CPU, part_name='a CPU')
     if pc_part == 'cpucooler':
-        cpucooler_entries = CPUCooler.query.all()
-        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCooler)
+        cpucooler_entries = CPUCooler.query
+
+        if min_value:
+            cpucooler_entries = cpucooler_entries.filter(CPUCooler.price >= min_value) 
+        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCooler, part_name='a CPU Cooler')
     if pc_part == 'mobo':
-        mobo_entries = Mobo.query.all()
-        return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=Mobo)
+        mobo_entries = Mobo.query
+
+        if min_value:
+            mobo_entries = mobo_entries.filter(Mobo.price >= min_value) 
+        return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=Mobo, part_name='a Motherboard')
     if pc_part == 'gpu':
-        gpu_entries = GPU.query.all()
-        return render_template('parts/gpu.html', gpu_entries=gpu_entries, min_value=min_value, part=GPU)
+        gpu_entries = GPU.query
+
+        if min_value:
+            gpu_entries = gpu_entries.filter(GPU.price >= min_value)
+        return render_template('parts/gpu.html', gpu_entries=gpu_entries, min_value=min_value, part=GPU, part_name='a GPU')
     if pc_part == 'ram':
-        ram_entries = RAM.query.all()
-        return render_template('parts/ram.html', ram_entries=ram_entries, min_value=min_value, part=RAM)
+        ram_entries = RAM.query
+
+        if min_value:
+            ram_entries = ram_entries.filter(RAM.price >= min_value)
+        return render_template('parts/ram.html', ram_entries=ram_entries, min_value=min_value, part=RAM, part_name='RAM')
     if pc_part == 'drive':
-        drive_entries = drive.query.all()
-        return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=drive)
+        drive_entries = drive.query
+
+        if min_value:
+            drive_entries = drive_entries.filter(drive.price >= min_value)
+        return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=drive, part_name='a Drive')
     if pc_part == 'psu':
-        psu_entries = PSU.query.all()
-        return render_template('parts/psu.html', psu_entries=psu_entries, min_value=min_value, part=PSU)
+        psu_entries = PSU.query
+
+        if min_value:
+            psu_entries = psu_entries.filter(PSU.price >= min_value)
+        return render_template('parts/psu.html', psu_entries=psu_entries, min_value=min_value, part=PSU, part_name='a PSU')
     if pc_part == 'case':
-        case_entries = case.query.all()
-        return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=case)
+        case_entries = case.query
+
+        if min_value:
+            case_entries = case_entries.filter(case.price >= min_value)
+        return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=case, part_name='a Case')
     if pc_part == 'fans':
-        fans_entries = fans.query.all()
-        return render_template('parts/fans.html', fans_entries=fans_entries, min_value=min_value, part=fans)
+        fans_entries = fans.query
+
+        if min_value:
+            fans_entries = fans_entries.filter(fans.price >= min_value)
+        return render_template('parts/fans.html', fans_entries=fans_entries, min_value=min_value, part=fans, part_name='fans')
     
     return "Invalid PC Component", 404
 

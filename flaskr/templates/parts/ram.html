@@ -1,10 +1,26 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for ram in ram_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ ram.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Speed</th>
+          <th scope="col">Modules</th>
+          <th scope="col">CAS Latency</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for ram in ram_entries if ram.price and (ram.price > min_value) %}
+            <tr>
+                <td>{{ ram.model }}</td>
+                <td>${{ ram.price }}</td>
+                <td>{{ ram.speed }}</td>
+                <td>{{ ram.modules }}</td>
+                <td>{{ ram.cas_latency }}</td>
+                
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

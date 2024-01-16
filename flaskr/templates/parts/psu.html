@@ -1,10 +1,34 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for psu in psu_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ psu.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Form Factor</th>
+          <th scope="col">Efficiency Rating</th>
+          <th scope="col">Wattage</th>
+          <th scope="col">Modular</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for psu in psu_entries if psu.price and (psu.price > min_value) %}
+            <tr>
+                <td>{{ psu.model }}</td>
+                <td>${{ psu.price }}</td>
+                <td>{{ psu.form_factor }}</td>
+                <td>{{ psu.effi }}</td>
+                <td>{{ psu.wattage }}</td>
+                {% if psu.mod == '0' %}
+                    <td>No</td>
+                {% else %}
+                    <td>{{ psu.mod }}</td>
+                {% endif %}
+                
+                
+                
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

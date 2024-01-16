@@ -1,10 +1,28 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for cpucooler in cpucooler_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ cpucooler.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Size</th>
+          <th scope="col">RPM</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for cpucooler in cpucooler_entries if cpucooler.price and (cpucooler.price > min_value) %}
+            <tr>
+                <td>{{ cpucooler.model }}</td>
+                <td>${{ cpucooler.price }}</td>
+                {% if cpucooler.size %}
+                <td>{{ cpucooler.size }}mm</td>
+                {% else %}
+                <td>{{ cpucooler.size }}</td>
+                {% endif %}
+                
+                <td>{{ cpucooler.rpm }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

@@ -1,10 +1,28 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for fans in fans_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ fans.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Size</th>
+          <th scope="col">RPM</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for fans in fans_entries if fans.price and (fans.price > min_value) %}
+            <tr>
+                <td>{{ fans.model }}</td>
+                <td>${{ fans.price }}</td>
+                {% if fans.size %}
+                <td>{{ fans.size }}mm</td>
+                {% else %}
+                <td>{{ fans.size }}</td>
+                {% endif %}
+                
+                <td>{{ fans.rpm }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

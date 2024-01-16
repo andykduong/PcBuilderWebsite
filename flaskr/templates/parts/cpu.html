@@ -1,4 +1,14 @@
 {% extends 'parts_base.html' %}
+{% block filters %}
+<label for="manuDropdown" id="manufac">Manufacturer</label>
+<select class="form-select" name="manuDropdown">
+    
+    <option value="">Any</option>
+    <option value="amd" {% if manufacturer == 'amd' %}selected{% endif %}>AMD</option>
+    <option value="intel"{% if manufacturer == 'intel' %}selected{% endif %}>Intel</option>
+    </select>
+    
+{% endblock filters %}
 {% block parts_content %}
 <table class="table">
     <thead>

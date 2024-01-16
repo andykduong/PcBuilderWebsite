@@ -1,10 +1,26 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for drive in drive_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ drive.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Capacity</th>
+          <th scope="col">Type</th>
+          <th scope="col">Interface</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for drive in drive_entries if drive.price and (drive.price > min_value) %}
+            <tr>
+                <td>{{ drive.model }}</td>
+                <td>${{ drive.price }}</td>
+                <td>{{ drive.capacity }}</td>
+                <td>{{ drive.drive_type }}</td>
+                <td>{{ drive.interface }}</td>
+                
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

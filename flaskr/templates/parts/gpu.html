@@ -1,10 +1,29 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for gpu in gpu_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ gpu.model + " " +(gpu.chipset if gpu.chipset else '')}}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Chipset</th>
+          <th scope="col">Memory</th>
+          <th scope="col">Core Clock</th>
+          <th scope="col">Length</th>
+
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for gpu in gpu_entries if gpu.price and (gpu.price > min_value) %}
+            <tr>
+                <td>{{ gpu.model }}</td>
+                <td>${{ gpu.price }}</td>
+                <td>{{ gpu.chipset }}</td>
+                <td>{{ gpu.mem }}</td>
+                <td>{{ gpu.core_clock }}</td>
+                <td>{{ gpu.gpu_len }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}

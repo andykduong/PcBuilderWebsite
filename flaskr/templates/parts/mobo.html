@@ -1,10 +1,26 @@
 {% extends 'parts_base.html' %}
 {% block parts_content %}
 <table class="table">
-    {% for mobo in mobo_entries %}
+    <thead>
         <tr>
-            <td>Model: {{ mobo.model }}</td>
+          <th scope="col">Model</th>
+          <th scope="col">Price</th>
+          <th scope="col">Memory Slots</th>
+          <th scope="col">Socket Type</th>
+          <th scope="col">Form Factor</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for mobo in mobo_entries if mobo.price and (mobo.price > min_value) %}
+            <tr>
+                <td>{{ mobo.model }}</td>
+                <td>${{ mobo.price }}</td>
+                <td>{{ mobo.mem_slot }}</td>
+                <td>{{ mobo.socket_type }}</td>
+                <td>{{ mobo.form_factor }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock parts_content %}
