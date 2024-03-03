@@ -24,6 +24,12 @@
                 <td>Model: {{ cpu.model }}</td>
                 <td>${{ cpu.price }}</td>
                 <td>Clock Speed: {{ cpu.clockSpeed }}</td>
+                <td>
+                    <form action="{{ url_for('add_part', part_type='cpu') }}" method="post">
+                    <input type="hidden" name="cpu_id" value="{{ cpu.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

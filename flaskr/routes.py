@@ -1,16 +1,39 @@
 from flask import redirect, url_for, render_template, flash, request
 from flaskr import app, db
 from flaskr.forms import RegistrationForm, LoginForm
-from flaskr.models import User, CPU, CPUCooler, Mobo, GPU, RAM, drive, PSU, case, fans
+from flaskr.models import User, CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS
 from flask_login import current_user, login_user, logout_user
 
-
+chosen_parts = {
+    'selected_cpu':None,
+    'selected_cpucooler':None,
+    'selected_mobo':None,
+    'selected_gpu':None,
+    'selected_ram':None,
+    'selected_drive':None,
+    'selected_psu':None,
+    'selected_case':None,
+    'selected_fans':None,
+}
 
 @app.route('/')
 
 @app.route('/index')
 def index():
-    return render_template("index.html",)
+
+    parts = [
+        {'name': 'CPU', 'chosen': chosen_parts['selected_cpu'], 'add_url': 'cpu'},
+        {'name': 'CPU Cooler', 'chosen': chosen_parts['selected_cpucooler'], 'add_url': 'cpucooler'},
+        {'name': 'Motherboard', 'chosen': chosen_parts['selected_mobo'], 'add_url': 'mobo'},
+        {'name': 'Graphic Card', 'chosen': chosen_parts['selected_gpu'], 'add_url': 'gpu'},
+        {'name': 'Memory', 'chosen': chosen_parts['selected_ram'], 'add_url': 'ram'},
+        {'name': 'Storage', 'chosen': chosen_parts['selected_drive'], 'add_url': 'drive'},
+        {'name': 'Power Supply', 'chosen': chosen_parts['selected_psu'], 'add_url': 'psu'},
+        {'name': 'Case', 'chosen': chosen_parts['selected_case'], 'add_url': 'case'},
+        {'name': 'Fans', 'chosen': chosen_parts['selected_fans'], 'add_url': 'fans'},
+    ]
+
+    return render_template("index.html", parts=parts)
 
 @app.route('/pick_<pc_part>', methods=['GET', "POST"])
 def part_picker(pc_part):
@@ -38,17 +61,17 @@ def part_picker(pc_part):
         cpu_entries = cpu_entries.all()
         return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, manufacturer=manufacturer, part=CPU, part_name='a CPU')
     if pc_part == 'cpucooler':
-        cpucooler_entries = CPUCooler.query
+        cpucooler_entries = CPUCOOLER.query
 
         if min_value:
-            cpucooler_entries = cpucooler_entries.filter(CPUCooler.price >= min_value) 
-        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCooler, part_name='a CPU Cooler')
+            cpucooler_entries = cpucooler_entries.filter(CPUCOOLER.price >= min_value) 
+        return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCOOLER, part_name='a CPU Cooler')
     if pc_part == 'mobo':
-        mobo_entries = Mobo.query
+        mobo_entries = MOBO.query
 
         if min_value:
-            mobo_entries = mobo_entries.filter(Mobo.price >= min_value) 
-        return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=Mobo, part_name='a Motherboard')
+            mobo_entries = mobo_entries.filter(MOBO.price >= min_value) 
+        return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=MOBO, part_name='a Motherboard')
     if pc_part == 'gpu':
         gpu_entries = GPU.query
 
@@ -62,11 +85,11 @@ def part_picker(pc_part):
             ram_entries = ram_entries.filter(RAM.price >= min_value)
         return render_template('parts/ram.html', ram_entries=ram_entries, min_value=min_value, part=RAM, part_name='RAM')
     if pc_part == 'drive':
-        drive_entries = drive.query
+        drive_entries = DRIVE.query
 
         if min_value:
-            drive_entries = drive_entries.filter(drive.price >= min_value)
-        return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=drive, part_name='a Drive')
+            drive_entries = drive_entries.filter(DRIVE.price >= min_value)
+        return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=DRIVE, part_name='a Drive')
     if pc_part == 'psu':
         psu_entries = PSU.query
 
@@ -74,19 +97,43 @@ def part_picker(pc_part):
             psu_entries = psu_entries.filter(PSU.price >= min_value)
         return render_template('parts/psu.html', psu_entries=psu_entries, min_value=min_value, part=PSU, part_name='a PSU')
     if pc_part == 'case':
-        case_entries = case.query
+        case_entries = CASE.query
 
         if min_value:
-            case_entries = case_entries.filter(case.price >= min_value)
-        return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=case, part_name='a Case')
+            case_entries = case_entries.filter(CASE.price >= min_value)
+        return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=CASE, part_name='a Case')
     if pc_part == 'fans':
-        fans_entries = fans.query
+        fans_entries = FANS.query
 
         if min_value:
-            fans_entries = fans_entries.filter(fans.price >= min_value)
-        return render_template('parts/fans.html', fans_entries=fans_entries, min_value=min_value, part=fans, part_name='fans')
+            fans_entries = fans_entries.filter(FANS.price >= min_value)
+        return render_template('parts/fans.html', fans_entries=fans_entries, min_value=min_value, part=FANS, part_name='fans')
     
     return "Invalid PC Component", 404
+
+@app.route('/add_part/<part_type>', methods = ['POST'])
+def add_part(part_type):
+    
+    part_id = request.form[part_type + '_id']
+    # part_id = request.form['cpu_id']
+    # cpu = CPU.query.get(part_id)
+    
+    part_dict = { 
+        'User': User, 'CPU': CPU, 'CPUCOOLER': CPUCOOLER, 'MOBO': MOBO, 'GPU': GPU,
+            'RAM': RAM, 'DRIVE': DRIVE, 'PSU': PSU, 'CASE': CASE, 'FANS': FANS
+    }
+
+    part_model = part_dict[part_type.upper()]
+
+    #cannot pass string 'CPU' in directly so use dict
+    part = part_model.query.get(part_id)
+
+    chosen_parts['selected_' + part_type] = part
+
+    flash(part_type.upper() + ' added successfully!')
+
+    return redirect(url_for('index'))
+        
 
 @app.route('/about')
 def about():

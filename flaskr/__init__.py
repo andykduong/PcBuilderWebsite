@@ -18,13 +18,21 @@ login  = LoginManager(app)
 login.login_view='login'
 
 from flaskr import controlDB, routes, models
-from flaskr.models import CPU, CPUCooler
+from flaskr.models import CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS
 
 @app.cli.command('repop-db')
 @with_appcontext
+
 def repopulate_db_cmd():
     controlDB.reset_db(CPU)
-    controlDB.reset_db(CPUCooler)
+    controlDB.reset_db(CPUCOOLER)
+    controlDB.reset_db(MOBO)
+    controlDB.reset_db(GPU)
+    controlDB.reset_db(RAM)
+    controlDB.reset_db(DRIVE)
+    controlDB.reset_db(PSU)
+    controlDB.reset_db(CASE)
+    controlDB.reset_db(FANS)
     controlDB.repopulate_db()
     click.echo('db repopulated')
 

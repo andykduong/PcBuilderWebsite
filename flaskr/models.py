@@ -28,17 +28,23 @@ class CPU(db.Model):
     price = db.Column(db.Float(precision=2))
     clockSpeed = db.Column(db.Float(precision=1), nullable=False)
 
+    def to_dict(cpu):
+        return {
+            'model': cpu.model,
+            'price': cpu.price,
+        }
+
     def __repr__(self):
         return f"CPU(model={self.model}, price={self.price}, clockSpeed={self.clockSpeed})"
 
-class CPUCooler(db.Model):
+class CPUCOOLER(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
     size = db.Column(db.Integer, nullable=True, default=None)
     rpm = db.Column(db.String(20))
 
-class Mobo(db.Model):
+class MOBO(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -68,7 +74,7 @@ class RAM(db.Model):
     modules = db.Column(db.String(20), nullable=True, default=None) # 2 x 8, 16
     cas_latency = db.Column(db.Integer, nullable=True, default=None)
 
-class drive(db.Model):
+class DRIVE(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -85,7 +91,7 @@ class PSU(db.Model):
     wattage = db.Column(db.Integer, nullable=True, default=None)
     mod = db.Column(db.String(10), nullable=True, default=None)
 
-class case(db.Model):
+class CASE(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
@@ -93,7 +99,7 @@ class case(db.Model):
     color = db.Column(db.String(20), nullable=True, default=None)
     side_panel = db.Column(db.String(25), nullable=True, default=None)
 
-class fans(db.Model):
+class FANS(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2), nullable=True, default=None)

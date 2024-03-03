@@ -15,168 +15,34 @@
         </tr>
       </thead>
       <tbody>
-        <!-- CPU -->
-        <tr>
-          <th scope="row">CPU</th>
-          <td>
-            {% if cpu %}
-              {{ cpu }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='cpu') }}" class="btn btn-outline-info btn-sm">
-                + Add CPU
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- CPU Cooler -->
-        <tr>
-          <th scope="row">CPU Cooler</th>
-          <td>
-            {% if cpuCooler %}
-              {{ cpuCooler }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='cpucooler') }}" class="btn btn-outline-info btn-sm">
-                + Add CPU Cooler
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-        
-
-        <!-- MOBO -->
-        <tr>
-          <th scope="row">Motherboard</th>
-          <td>
-            {% if mobo %}
-              {{ mobo }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='mobo') }}" class="btn btn-outline-info btn-sm">
-                + Add Motherboard
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- GPU -->
-        <tr>
-          <th scope="row">Graphics Card</th>
-          <td>
-            {% if gpu %}
-              {{ gpu }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='gpu') }}" class="btn btn-outline-info btn-sm">
-                + Add Graphics Card
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- MEM -->
-        <tr>
-          <th scope="row">Memory</th>
-          <td>
-            {% if ram %}
-              {{ ram }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='ram') }}" class="btn btn-outline-info btn-sm">
-                + Add Memory
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- Storage -->
-        <tr>
-          <th scope="row">Storage</th>
-          <td>
-            {% if storage %}
-              {{ storage }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='drive') }}" class="btn btn-outline-info btn-sm">
-                + Add Storage
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- PSU -->
-        <tr>
-          <th scope="row">Power Supply</th>
-          <td>
-            {% if psu %}
-              {{ psu }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='psu') }}" class="btn btn-outline-info btn-sm">
-                + Add Power Supply
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- Case -->
-        <tr>
-          <th scope="row">Case</th>
-          <td>
-            {% if case %}
-              {{ case }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='case') }}" class="btn btn-outline-info btn-sm">
-                + Add Case
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
-
-        <!-- Fans -->
-        <tr>
-          <th scope="row">Fans</th>
-          <td>
-            {% if fan %}
-              {{ fan }}
-              <!-- picture -->
-            {% else %}
-              <a href="{{ url_for('part_picker', pc_part='fans') }}" class="btn btn-outline-info btn-sm">
-                + Add Fans
-              </a>
-            {% endif %}
-          </td>
-          <td> <!-- Brand -->
-            -
-          </td>
-        </tr>
+        {% for part in parts %}
+          <tr>
+            <th scope="row">{{ part.name }}</th>
+            <td>
+              {% if part.chosen %}
+                {{ part.chosen.model }}
+              {% else %}
+                <a href="{{ url_for('part_picker', pc_part=part.add_url) }}" class="btn btn-outline-info btn-sm">
+                  + Add {{part.name}}
+                </a>
+              {% endif %}
+            </td>
+            <td> <!-- Brand -->
+              {% if part.chosen %}
+                {{ part.chosen.brand }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td> <!-- Price -->
+              {% if part.chosen %}
+                {{ part.chosen.price }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
   </table>
 {% endblock content %}

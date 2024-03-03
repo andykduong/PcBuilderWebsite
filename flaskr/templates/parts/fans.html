@@ -21,6 +21,12 @@
                 {% endif %}
                 
                 <td>{{ fans.rpm }}</td>
+                <td>
+                    <form action="{{ url_for('add_part', part_type='fans') }}" method="post">
+                    <input type="hidden" name="fans_id" value="{{ fans.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

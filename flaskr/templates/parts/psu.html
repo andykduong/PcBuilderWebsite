@@ -24,7 +24,12 @@
                 {% else %}
                     <td>{{ psu.mod }}</td>
                 {% endif %}
-                
+                <td>
+                    <form action="{{ url_for('add_part', part_type='psu') }}" method="post">
+                    <input type="hidden" name="psu_id" value="{{ psu.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
                 
                 
             </tr>

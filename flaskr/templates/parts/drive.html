@@ -18,7 +18,12 @@
                 <td>{{ drive.capacity }}</td>
                 <td>{{ drive.drive_type }}</td>
                 <td>{{ drive.interface }}</td>
-                
+                <td>
+                    <form action="{{ url_for('add_part', part_type='drive') }}" method="post">
+                    <input type="hidden" name="drive_id" value="{{ drive.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

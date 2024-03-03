@@ -19,6 +19,13 @@
                 <td>{{ mobo.socket_type }}</td>
                 <td>{{ mobo.form_factor }}</td>
 
+                <td>
+                    <form action="{{ url_for('add_part', part_type='mobo') }}" method="post">
+                    <input type="hidden" name="mobo_id" value="{{ mobo.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
+
             </tr>
         {% endfor %}
     </tbody>

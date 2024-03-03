@@ -18,7 +18,12 @@
                 <td>{{ ram.speed }}</td>
                 <td>{{ ram.modules }}</td>
                 <td>{{ ram.cas_latency }}</td>
-                
+                <td>
+                    <form action="{{ url_for('add_part', part_type='ram') }}" method="post">
+                    <input type="hidden" name="ram_id" value="{{ ram.id }}">
+                    <button type="submit" class="btn">Add</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

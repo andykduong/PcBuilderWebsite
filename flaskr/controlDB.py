@@ -1,6 +1,6 @@
 import json
 from flaskr import db, app
-from flaskr.models import CPU, CPUCooler, Mobo, GPU, RAM, drive, PSU, case, fans
+from flaskr.models import CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS
 
 def reset_db(table):
     with app.app_context():
@@ -20,6 +20,8 @@ def repopulate_db():
             if CPU.query.filter_by(model=model).first() is None: #get rid of dupes
                 cpu_item = CPU(model=model, price=price, clockSpeed=clockSpeed)
                 db.session.add(cpu_item)
+
+
     with open('flaskr/parts_json/cpu-cooler.json', "r") as f:
     
         data = json.load(f)
@@ -40,9 +42,10 @@ def repopulate_db():
             else:
                 rpm_str = str(rpm)
 
-            if CPUCooler.query.filter_by(model=model).first() is None: #get rid of dupes
-                cpucooler_item = CPUCooler(model=model, price=price, size=size, rpm=rpm_str)
+            if CPUCOOLER.query.filter_by(model=model).first() is None: #get rid of dupes
+                cpucooler_item = CPUCOOLER(model=model, price=price, size=size, rpm=rpm_str)
                 db.session.add(cpucooler_item)
+
 
     with open('flaskr/parts_json/motherboard.json', "r") as f:
     
@@ -55,9 +58,10 @@ def repopulate_db():
             socket_type = mobo['socket']
             form_factor = mobo['form_factor']
 
-            if Mobo.query.filter_by(model=model).first() is None: #get rid of dupes
-                mobo_item = Mobo(model=model, price=price,mem_slot=mem_slot, socket_type=socket_type, form_factor=form_factor)
+            if MOBO.query.filter_by(model=model).first() is None: #get rid of dupes
+                mobo_item = MOBO(model=model, price=price,mem_slot=mem_slot, socket_type=socket_type, form_factor=form_factor)
                 db.session.add(mobo_item)
+
 
     with open('flaskr/parts_json/video-card.json', "r") as f:
     
@@ -76,6 +80,7 @@ def repopulate_db():
             if GPU.query.filter_by(model=model).first() is None: #get rid of dupes
                 gpu_item = GPU(model=model, price=price, chipset=chipset, mem=mem, core_clock=core_clock, gpu_len=gpu_len)
                 db.session.add(gpu_item)
+
 
     with open('flaskr/parts_json/memory.json', "r") as f:
     
@@ -126,9 +131,10 @@ def repopulate_db():
             drive_type = drive_item['type']
             interface = drive_item['interface']
 
-            if drive.query.filter_by(model=model).first() is None: #get rid of dupes
-                drive_item = drive(model=model, price=price, capacity=capacity, drive_type=drive_type, interface=interface)
+            if DRIVE.query.filter_by(model=model).first() is None: #get rid of dupes
+                drive_item = DRIVE(model=model, price=price, capacity=capacity, drive_type=drive_type, interface=interface)
                 db.session.add(drive_item)
+
 
     with open('flaskr/parts_json/power-supply.json', "r") as f:
     
@@ -146,6 +152,7 @@ def repopulate_db():
                 psu_item = PSU(model=model, price=price, form_factor=form_factor, effi=effi, wattage=wattage, mod=mod)
                 db.session.add(psu_item)
 
+
     with open('flaskr/parts_json/case.json', "r") as f:
     
         data = json.load(f)
@@ -157,9 +164,11 @@ def repopulate_db():
             color = case_item['color']
             side_panel = case_item['side_panel']
 
-            if case.query.filter_by(model=model).first() is None: #get rid of dupes
-                case_item = case(model=model, price=price, type=type, color=color, side_panel=side_panel)
+            if CASE.query.filter_by(model=model).first() is None: #get rid of dupes
+                case_item = CASE(model=model, price=price, type=type, color=color, side_panel=side_panel)
                 db.session.add(case_item)
+
+        
     with open('flaskr/parts_json/case-fan.json', "r") as f:
     
         data = json.load(f)
@@ -180,65 +189,8 @@ def repopulate_db():
             else:
                 rpm_str = str(rpm)
 
-            if fans.query.filter_by(model=model).first() is None: #get rid of dupes
-                fan_item = fans(model=model, price=price, size=size, rpm = rpm_str)
+            if FANS.query.filter_by(model=model).first() is None: #get rid of dupes
+                fan_item = FANS(model=model, price=price, size=size, rpm = rpm_str)
                 db.session.add(fan_item)
 
     db.session.commit()
-
-
-# with open('flaskr/parts_json/cpu_cooler.json', "r") as f:
-    
-#     data = json.load(f)
-    
-#     for cpu_cooler in data:
-#         model = cpu_cooler['name']
-#         price = cpu_cooler['price']
-#         size = cpu_cooler['size']
-#         rpm = cpu_cooler['rpm']
-    
-#         cpu_cooler_item = CPUCooler(model=model, price=price, size=size, rpm=rpm)
-#         db.session.add(cpu_cooler_item)
-
-# with open('flaskr/parts_json/motherboard.json', "r") as f:
-    
-#     data = json.load(f)
-    
-#     for fan in data:
-#         model = fan['name']
-#         price = fan['price']
-#         mem_slot = fan['memory_slots']
-#         mem_speed = mobo['max_memory']
-#         socket_type = mobo['socket']
-#         form_factor = mobo['form_factor']
-
-#         mobo_item = Mobo(model=model, price=price, mem_slot=mem_slot, mem_speed=mem_speed, socket_type=socket_type, form_factor=form_factor)
-#         db.session.add(mobo_item)
-
-# with open('flaskr/parts_json/video-card.json', "r") as f:
-    
-#     data = json.load(f)
-    
-#     for gpu in data:
-#         model = gpu['name'] + gpu['chipset']
-#         price = gpu['price']
-#         mem = gpu['memory']
-#         core_clock = gpu['core_clock']
-#         len = gpu['length']
-    
-#         gpu_item = GPU(model=model, price=price, mem=mem, core_clock=core_clock, gpu_len=len)
-#         db.session.add(gpu_item)
-
-# with open('flaskr/parts_json/memory.json', "r") as f:
-    
-#     data = json.load(f)
-    
-#     for ram in data:
-#         model = ram['name']
-#         price = ram['price']
-#         speed = ram['speed']
-#         modules = ram['modules']
-#         cas_latency = ram['cas_latency']
-    
-#         gpu_item = GPU(model=model, price=price, mem=mem, core_clock=core_clock, gpu_len=len)
-#         db.session.add(gpu_item)
