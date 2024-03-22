@@ -15,6 +15,10 @@ chosen_parts = {
     'selected_case':None,
     'selected_fans':None,
 }
+part_dict = { 
+    'CPU': CPU, 'CPUCOOLER': CPUCOOLER, 'MOBO': MOBO, 'GPU': GPU,
+        'RAM': RAM, 'DRIVE': DRIVE, 'PSU': PSU, 'CASE': CASE, 'FANS': FANS
+}
 
 @app.route('/')
 
@@ -35,8 +39,8 @@ def index():
 
     return render_template("index.html", parts=parts)
 
-@app.route('/pick_<pc_part>', methods=['GET', "POST"])
-def part_picker(pc_part):
+@app.route('/pick_<part_type>', methods=['GET', "POST"])
+def part_picker(part_type):
     
 
     if request.method == 'POST':
@@ -48,7 +52,7 @@ def part_picker(pc_part):
 
 
 
-    if pc_part == 'cpu':
+    if part_type == 'cpu':
         cpu_entries = CPU.query
 
         if min_value:
@@ -60,49 +64,49 @@ def part_picker(pc_part):
 
         cpu_entries = cpu_entries.all()
         return render_template('parts/cpu.html', cpu_entries=cpu_entries, min_value=min_value, manufacturer=manufacturer, part=CPU, part_name='a CPU')
-    if pc_part == 'cpucooler':
+    if part_type == 'cpucooler':
         cpucooler_entries = CPUCOOLER.query
 
         if min_value:
             cpucooler_entries = cpucooler_entries.filter(CPUCOOLER.price >= min_value) 
         return render_template('parts/cpucooler.html', cpucooler_entries=cpucooler_entries, min_value=min_value, part=CPUCOOLER, part_name='a CPU Cooler')
-    if pc_part == 'mobo':
+    if part_type == 'mobo':
         mobo_entries = MOBO.query
 
         if min_value:
             mobo_entries = mobo_entries.filter(MOBO.price >= min_value) 
         return render_template('parts/mobo.html', mobo_entries=mobo_entries, min_value=min_value, part=MOBO, part_name='a Motherboard')
-    if pc_part == 'gpu':
+    if part_type == 'gpu':
         gpu_entries = GPU.query
 
         if min_value:
             gpu_entries = gpu_entries.filter(GPU.price >= min_value)
         return render_template('parts/gpu.html', gpu_entries=gpu_entries, min_value=min_value, part=GPU, part_name='a GPU')
-    if pc_part == 'ram':
+    if part_type == 'ram':
         ram_entries = RAM.query
 
         if min_value:
             ram_entries = ram_entries.filter(RAM.price >= min_value)
         return render_template('parts/ram.html', ram_entries=ram_entries, min_value=min_value, part=RAM, part_name='RAM')
-    if pc_part == 'drive':
+    if part_type == 'drive':
         drive_entries = DRIVE.query
 
         if min_value:
             drive_entries = drive_entries.filter(DRIVE.price >= min_value)
         return render_template('parts/drive.html', drive_entries=drive_entries, min_value=min_value, part=DRIVE, part_name='a Drive')
-    if pc_part == 'psu':
+    if part_type == 'psu':
         psu_entries = PSU.query
 
         if min_value:
             psu_entries = psu_entries.filter(PSU.price >= min_value)
         return render_template('parts/psu.html', psu_entries=psu_entries, min_value=min_value, part=PSU, part_name='a PSU')
-    if pc_part == 'case':
+    if part_type == 'case':
         case_entries = CASE.query
 
         if min_value:
             case_entries = case_entries.filter(CASE.price >= min_value)
         return render_template('parts/case.html', case_entries=case_entries, min_value=min_value, part=CASE, part_name='a Case')
-    if pc_part == 'fans':
+    if part_type == 'fans':
         fans_entries = FANS.query
 
         if min_value:
@@ -115,14 +119,7 @@ def part_picker(pc_part):
 def add_part(part_type):
     
     part_id = request.form[part_type + '_id']
-    # part_id = request.form['cpu_id']
-    # cpu = CPU.query.get(part_id)
     
-    part_dict = { 
-        'User': User, 'CPU': CPU, 'CPUCOOLER': CPUCOOLER, 'MOBO': MOBO, 'GPU': GPU,
-            'RAM': RAM, 'DRIVE': DRIVE, 'PSU': PSU, 'CASE': CASE, 'FANS': FANS
-    }
-
     part_model = part_dict[part_type.upper()]
 
     #cannot pass string 'CPU' in directly so use dict
@@ -134,6 +131,12 @@ def add_part(part_type):
 
     return redirect(url_for('index'))
         
+@app.route('/remove_part/<part_type>', methods = ['POST'])
+def remove_part(part_type):
+    chosen_parts['selected_' + part_type] = None
+    print('hello')
+    return redirect(url_for('index'))
+
 
 @app.route('/about')
 def about():
