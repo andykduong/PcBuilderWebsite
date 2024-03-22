@@ -3,3 +3,5 @@ email-validator
 WTForms
 Flask-WTF
 flask-migrate
+flask-bcrypt
+flask-login

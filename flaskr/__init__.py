@@ -8,7 +8,7 @@ import click
 from flask.cli import with_appcontext
 
 app = Flask(__name__, static_url_path='/static')
-app.config.from_object(Config);
+app.config.from_object(Config)
 
 
 db = SQLAlchemy(app)
