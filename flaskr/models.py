@@ -1,5 +1,6 @@
 from flaskr import db, Bcrypt, login
 from flask_login import UserMixin
+from sqlalchemy.orm.attributes import flag_modified
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,6 +8,23 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_pfp = db.Column(db.String(16), nullable=False, default='images/default_pfp.jpeg')
     password = db.Column(db.String(60), nullable=False)
+    pc_build = db.Column(db.JSON, nullable=True)
+
+    def add_part(self, part_type, part_id):
+        if self.pc_build is None:
+            self.pc_build = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+        self.pc_build[part_type] = part_id
+        flag_modified(self, 'pc_build')
+        db.session.commit()
+
+    def get_build(self):
+        return self.pc_build
+    #for debugging
+    # def removeBuild(self):
+    #     self.pc_build = None
+    #     flag_modified(self, 'pc_build')
+    #     db.session.commit()
+
 
     def set_pass(self, password):
         self.password = Bcrypt.generate_password_hash(password).decode('utf-8')
@@ -15,24 +33,17 @@ class User(db.Model, UserMixin):
         return Bcrypt.check_password_hash(self.password, password)
    
     def __repr__(self):
-        return f"User(username={self.username}, email={self.email}, image_pfp={self.image_pfp}, password={self.password})"
+        return f"User(username={self.username}, email={self.email}, pc_build={self.pc_build})"
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 class CPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2))
     clockSpeed = db.Column(db.Float(precision=1), nullable=False)
-
-    def to_dict(cpu):
-        return {
-            'model': cpu.model,
-            'price': cpu.price,
-        }
 
     def __repr__(self):
         return f"CPU(model={self.model}, price={self.price}, clockSpeed={self.clockSpeed})"

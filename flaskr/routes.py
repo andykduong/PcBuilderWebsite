@@ -1,41 +1,42 @@
-from flask import redirect, url_for, render_template, flash, request
+from flask import redirect, url_for, render_template, flash, request, session, jsonify
 from flaskr import app, db
 from flaskr.forms import RegistrationForm, LoginForm
 from flaskr.models import User, CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS
 from flask_login import current_user, login_user, logout_user
 
-chosen_parts = {
-    'selected_cpu':None,
-    'selected_cpucooler':None,
-    'selected_mobo':None,
-    'selected_gpu':None,
-    'selected_ram':None,
-    'selected_drive':None,
-    'selected_psu':None,
-    'selected_case':None,
-    'selected_fans':None,
-}
-part_dict = { 
-    'CPU': CPU, 'CPUCOOLER': CPUCOOLER, 'MOBO': MOBO, 'GPU': GPU,
-        'RAM': RAM, 'DRIVE': DRIVE, 'PSU': PSU, 'CASE': CASE, 'FANS': FANS
-}
+
 
 @app.route('/')
 
 @app.route('/index')
 def index():
-
+    part_dict = { 
+        'CPU': CPU, 'CPU Cooler': CPUCOOLER, 'Motherboard': MOBO, 'Graphics Card': GPU,
+            'Memory': RAM, 'Storage': DRIVE, 'Power Supply': PSU, 'Case': CASE, 'Fans': FANS
+    }
     parts = [
-        {'name': 'CPU', 'chosen': chosen_parts['selected_cpu'], 'add_url': 'cpu'},
-        {'name': 'CPU Cooler', 'chosen': chosen_parts['selected_cpucooler'], 'add_url': 'cpucooler'},
-        {'name': 'Motherboard', 'chosen': chosen_parts['selected_mobo'], 'add_url': 'mobo'},
-        {'name': 'Graphic Card', 'chosen': chosen_parts['selected_gpu'], 'add_url': 'gpu'},
-        {'name': 'Memory', 'chosen': chosen_parts['selected_ram'], 'add_url': 'ram'},
-        {'name': 'Storage', 'chosen': chosen_parts['selected_drive'], 'add_url': 'drive'},
-        {'name': 'Power Supply', 'chosen': chosen_parts['selected_psu'], 'add_url': 'psu'},
-        {'name': 'Case', 'chosen': chosen_parts['selected_case'], 'add_url': 'case'},
-        {'name': 'Fans', 'chosen': chosen_parts['selected_fans'], 'add_url': 'fans'},
+        {'name': 'CPU', 'chosen': None, 'add_url': 'cpu'},
+        {'name': 'CPU Cooler', 'chosen':None, 'add_url': 'cpucooler'},
+        {'name': 'Motherboard', 'chosen':None, 'add_url': 'mobo'},
+        {'name': 'Graphics Card', 'chosen':None, 'add_url': 'gpu'},
+        {'name': 'Memory', 'chosen':None, 'add_url': 'ram'},
+        {'name': 'Storage', 'chosen':None, 'add_url': 'drive'},
+        {'name': 'Power Supply', 'chosen':None, 'add_url': 'psu'},
+        {'name': 'Case', 'chosen':None, 'add_url': 'case'},
+        {'name': 'Fans', 'chosen':None, 'add_url': 'fans'},
     ]
+
+    if current_user.is_authenticated:
+        for part in parts:
+            part_model = part_dict[part['name']]
+            part['chosen'] = part_model.query.get(current_user.get_build()[part['add_url']])
+    else:
+        if 'pc_build' not in session:
+            session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+        
+        for part in parts:
+            part_model = part_dict[part['name']]
+            part['chosen'] = part_model.query.get(session['pc_build'][part['add_url']])
 
     return render_template("index.html", parts=parts)
 
@@ -115,28 +116,41 @@ def part_picker(part_type):
     
     return "Invalid PC Component", 404
 
+# for debugging
+@app.route('/reset')
+def reset():
+    if current_user.is_authenticated:
+        current_user.removeBuild()
+    else:
+        session.clear()
+    return redirect(url_for("index"))
+
+
 @app.route('/add_part/<part_type>', methods = ['POST'])
 def add_part(part_type):
-    
+
     part_id = request.form[part_type + '_id']
-    
-    part_model = part_dict[part_type.upper()]
 
-    #cannot pass string 'CPU' in directly so use dict
-    part = part_model.query.get(part_id)
-
-    chosen_parts['selected_' + part_type] = part
-
-    flash(part_type.upper() + ' added successfully!')
+    if current_user.is_authenticated:
+        current_user.add_part(part_type, part_id)
+    else:
+        if 'pc_build' not in session:
+            session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+        session['pc_build'][part_type] = part_id
+        session.modified = True
 
     return redirect(url_for('index'))
         
 @app.route('/remove_part/<part_type>', methods = ['POST'])
 def remove_part(part_type):
-    chosen_parts['selected_' + part_type] = None
-    print('hello')
-    return redirect(url_for('index'))
+    
+    if current_user.is_authenticated:
+        current_user.add_part(part_type, None)
+    else:
+        session['pc_build'][part_type] = None
+        session.modified = True
 
+    return redirect(url_for('index'))
 
 @app.route('/about')
 def about():
@@ -157,6 +171,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        if current_user.get_build() is None: #just to initalize their table
+            current_user.add_part('cpu', None)
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():

@@ -4,12 +4,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_session import Session
 import click
 from flask.cli import with_appcontext
 
 app = Flask(__name__, static_url_path='/static')
 app.config.from_object(Config)
 
+#Flask Session Configs
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"  # Choose your preferred backend
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
