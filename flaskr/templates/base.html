@@ -16,31 +16,7 @@
     {% endblock styles %}
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-    <div class="container d-flex justify-content-center">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">BuildAPC</a>
-          </li>
-          {% if current_user.is_anonymous %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-          </li>
-          <li class="navbar-text" style="color: aqua;">Hi {{ current_user.username }}</li>
-          {% endif %}
-
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div>{% include 'navbar.html' %}</div>
   <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6 text-center" >
@@ -53,10 +29,11 @@
           {% endwith %}
         </div>
     </div>
-  </div>
+  
     {% block content %}
     
     {% endblock content %}
   <script src="/flaskr/static/js/bootstrap.js"></script>
+</div>
 </body>
 </html>

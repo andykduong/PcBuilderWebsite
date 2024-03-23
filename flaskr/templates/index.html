@@ -4,12 +4,11 @@
   <h1>Home Page</h1>
   <p>Welcome to Build a PC!</p>
 </div>
-  <table class="table table-hover">
+  <table class="table table-hover mx-lg-3">
       <thead>
         <tr>
           <th scope="col"></th>
           <th scope="col">Component</th>
-          <th scope="col">Brand</th>
           <th scope="col">Price</th>
           <th scope="col">Quantity</th>
           <th></th>
@@ -28,13 +27,6 @@
                 </a>
               {% endif %}
             </td>
-            <td> <!-- Brand -->
-              {% if part.chosen %}
-                {{ part.chosen.brand }}
-              {% else %}
-                -
-              {% endif %}
-            </td>
             <td> <!-- Price -->
               {% if part.chosen %}
                 {{ part.chosen.price }}
@@ -42,7 +34,7 @@
                 -
               {% endif %}
             </td>
-            <td>
+            <td></td>
             {% if part.chosen %}
               <td>
                 <form action="{{ url_for('remove_part', part_type=part.add_url) }}" method="post">
@@ -52,9 +44,10 @@
                   </svg>
                 </button>
                 </form>
-              </td>
+            {% else %}
+            <td></td>
             {% endif %}
-          </td>
+              </td>
           </tr>
         {% endfor %}
       </tbody>

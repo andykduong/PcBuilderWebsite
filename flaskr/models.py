@@ -19,12 +19,12 @@ class User(db.Model, UserMixin):
 
     def get_build(self):
         return self.pc_build
+    
     #for debugging
     # def removeBuild(self):
     #     self.pc_build = None
     #     flag_modified(self, 'pc_build')
     #     db.session.commit()
-
 
     def set_pass(self, password):
         self.password = Bcrypt.generate_password_hash(password).decode('utf-8')

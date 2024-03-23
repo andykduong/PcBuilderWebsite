@@ -51,7 +51,29 @@ def part_picker(part_type):
         min_value = float(request.args.get('min', default=0))
         manufacturer = request.args.get('manuDropdown', default='')
 
+    # part_dict = { 
+    #     'cpu': CPU, 'cpucooler': CPUCOOLER, 'mobo': MOBO, 'gpu': GPU,
+    #         'ram': RAM, 'drive': DRIVE, 'psu': PSU, 'case': CASE, 'fans': FANS
+    # }
 
+    # part = part_dict[part_type]
+    # part_entries = part.query
+
+    # if min_value:
+    #     part_entries = part_entries.filter(part.price >= min_value)
+    
+    # if manufacturer:
+    #     manufacturer_pattern = f"%{manufacturer}%"
+    #     part_entries = part_entries.filter(part.model.like(manufacturer_pattern))
+
+    # part_entries = part_entries.all()
+
+    # template = f'parts/{part_type}.html'
+    # part_var = f'{part_type}_entries'
+    # part_name = part.toString()
+    # print(f'Template: {template}, part_var: {part_var}, part: {part}, part_name: a {part}')
+
+    # return render_template(template, part_var=part_entries, min_value=min_value, manufacturer=manufacturer, part=part, part_name=f'a {part_name}' )
 
     if part_type == 'cpu':
         cpu_entries = CPU.query

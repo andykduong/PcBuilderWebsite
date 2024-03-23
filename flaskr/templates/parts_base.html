@@ -1,48 +1,66 @@
-{% extends 'base.html' %}
-{% block content %}
-<div style="margin: 1rem;">
-    <h1>Choose {{ part_name }}</h1>
-  </div>
-<div class="content_wrapper">
-    <div class="row gy-3">
-        <div class="sidebar d-none d-lg-block">
-            <h1>Filters</h1>
-            <form action="" method="POST">
-                <div class="form-group">
-                    <label for="rangeSlider" id="minValueDisplay">Minimum Price: {{ min_value }}</label>
-                    <input type="range" class="form-control-range" min="0" max="{{ part.query.order_by(part.price.desc()).first().price }}" value="{{ min_value }}" id="minValSlider" name="minSlider">
-                    
-                    {% block filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+      <title>{{title}}</title>
+    {% else %}
+      <title>Build a PC</title>
+    {% endif %}
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css')}}">
+    {% block styles %}
+        
+    {% endblock styles %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div style="margin: 1rem;">
+        <h1>Choose {{ part_name }}</h1>
+      </div>
+    <div class="content_wrapper">
+        <div class="row gy-3">
+            <div class="sidebar d-none d-lg-block">
+                <h1>Filters</h1>
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="rangeSlider" id="minValueDisplay">Minimum Price: {{ min_value }}</label>
+                        <input type="range" class="form-control-range" min="0" max="{{ part.query.order_by(part.price.desc()).first().price }}" value="{{ min_value }}" id="minValSlider" name="minSlider">
                         
-                    {% endblock filters %}
-                      
-                </div>
-
-                <button class="btn btn-primary">Filter</button>
-            </form>
-        </div>
-        <script>
-            function updateSliderValue() {
+                        {% block filters %}
+                            
+                        {% endblock filters %}
+                          
+                    </div>
+    
+                    <button class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+            <script>
+                function updateSliderValue() {
+                    var slider = document.getElementById('minValSlider');
+                    var display = document.getElementById('minValueDisplay');
+                    display.textContent = "Minimum Price: " + slider.value;
+                    
+                    // Update URL without reloading the page
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?min=' + slider.value;
+                    window.history.pushState({path:newurl}, '', newurl);
+                }
+                
                 var slider = document.getElementById('minValSlider');
-                var display = document.getElementById('minValueDisplay');
-                display.textContent = "Minimum Price: " + slider.value;
-                
-                // Update URL without reloading the page
-                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?min=' + slider.value;
-                window.history.pushState({path:newurl}, '', newurl);
-            }
-            
-            var slider = document.getElementById('minValSlider');
-            if (slider){
-                slider.oninput = updateSliderValue;
-                updateSliderValue();
-            }
-        </script>
-        <div class="main_content">
-            {% block parts_content %}
-                
-            {% endblock parts_content %}
+                if (slider){
+                    slider.oninput = updateSliderValue;
+                    updateSliderValue();
+                }
+            </script>
+            <div class="main_content">
+                {% block parts_content %}
+                    
+                {% endblock parts_content %}
+            </div>
         </div>
     </div>
-</div>
-{% endblock content %}
+</body>
+</html>
