@@ -4,3 +4,4 @@ instance/
 config.py
 app.db
 flaskr/static/bootstrap-icons
+ebaySECRETS.json
