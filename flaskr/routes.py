@@ -29,7 +29,8 @@ def index():
     if current_user.is_authenticated:
         for part in parts:
             part_model = part_dict[part['name']]
-            part['chosen'] = part_model.query.get(current_user.get_build()[part['add_url']])
+            if part_model.query.get(current_user.get_build()[part['add_url']]):
+                part['chosen'] = part_model.query.get(current_user.get_build()[part['add_url']])
     else:
         if 'pc_build' not in session:
             session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
@@ -182,7 +183,7 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, pc_build={"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None})
         user.set_pass(form.password.data)
         db.session.add(user)
         db.session.commit()
