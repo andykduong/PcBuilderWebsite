@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for build in userBuilds %}
+<form action="{{ url_for('load_Build', build_id=build.id) }}" method="post">
+    <button type="submit" class="btn btn-danger">
+      Load
+    </button>
+    </form>
+{% endfor %}
+{% endblock content %}
