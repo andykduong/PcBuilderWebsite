@@ -32,7 +32,7 @@ def index():
     for part in parts:
         part_model = part_dict[part['name']]
         part['chosen'] = part_model.query.get(session['pc_build'][part['add_url']])
-    
+
     return render_template("index.html", parts=parts)
 
 #For each individual picking page
@@ -140,13 +140,27 @@ def build_gallery():
 
     return render_template("build_gallery.html", userBuilds=u.pc_build)
 
-@app.route('/save_build')
-def save_Build():
+@app.route('/save_build', methods=['POST'])
+def save_build():
     if current_user.is_authenticated:
-        current_user.pc_build.append(session['pc_build'])
+        part_dict = {"cpu":CPU,"cpucooler":CPUCOOLER,"mobo":MOBO,"gpu":GPU,"ram":RAM,"drive":DRIVE,"psu":PSU, "case":CASE,"fans":FANS}
+        user_build = PCBuild(title='temp')
+        if 'loadedBuild_id' in session:
+            user_build = PCBuild.query.get(session['loadedBuild_id'])
+
+        for part_name in session['pc_build']:
+
+            curr_part = getattr(user_build, part_name, None)
+            print(curr_part)
+            curr_part.clear()
+            item_id = session['pc_build'][part_name]
+            actual_item = part_dict[part_name].query.get(item_id)
+            curr_part.append(actual_item)
+        
         db.session.commit()
         return redirect(url_for('build_gallery'))
     else:
+        flash('Please create an account to save a build.', 'danger')
         return redirect(url_for('register'))
     
 
@@ -173,46 +187,22 @@ def load_Build(build_id):
         # session['pc_build'][] = part
     return redirect(url_for('index'))
 
-
-# for debugging
-@app.route('/reset')
-def reset():
-    if current_user.is_authenticated:
-        current_user.removeBuild()
-    else:
-        session.clear()
-    return redirect(url_for("index"))
-
 #inside picking page, add button
 @app.route('/add_part/<part_type>', methods = ['POST'])
 def add_part(part_type):
-
+    print(part_type)
     part_id = request.form[part_type + '_id']
-
-    if current_user.is_authenticated:
-        current_user.add_part(part_type, part_id)
-    else:
-        if 'pc_build' not in session:
-            session['pc_build'] = PCBuild(title='temp')
-        session['pc_build'][part_type] = part_id
-        session.modified = True
-
+    session['pc_build'][part_type] = part_id
+    session.modified = True
+    print(session['pc_build'])
     return redirect(url_for('index'))
 
 @app.route('/remove_part/<part_type>', methods = ['POST'])
 def remove_part(part_type):
-    
-    if current_user.is_authenticated:
-        current_user.add_part(part_type, None)
-    else:
-        session['pc_build'][part_type] = None
-        session.modified = True
-
+    session['pc_build'][part_type] = None
+    session.modified = True
+    print(session['pc_build'])
     return redirect(url_for('index'))
-
-@app.route('/about')
-def about():
-    return render_template('about.html', title="About the Developer")
 
 @app.route('/register', methods=['GET', "POST"])
 def register():
