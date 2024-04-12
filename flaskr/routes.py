@@ -35,6 +35,7 @@ def index():
     
     return render_template("index.html", parts=parts)
 
+#For each individual picking page
 @app.route('/pick_<part_type>', methods=['GET', "POST"])
 def part_picker(part_type):
     
@@ -139,6 +140,16 @@ def build_gallery():
 
     return render_template("build_gallery.html", userBuilds=u.pc_build)
 
+@app.route('/save_build')
+def save_Build():
+    if current_user.is_authenticated:
+        current_user.pc_build.append(session['pc_build'])
+        db.session.commit()
+        return redirect(url_for('build_gallery'))
+    else:
+        return redirect(url_for('register'))
+    
+
 @app.route('/load', methods=['POST'])
 def load_Build(build_id):
     part_dict = [
@@ -172,9 +183,9 @@ def reset():
         session.clear()
     return redirect(url_for("index"))
 
+#inside picking page, add button
 @app.route('/add_part/<part_type>', methods = ['POST'])
 def add_part(part_type):
-    print(part_type)
 
     part_id = request.form[part_type + '_id']
 
@@ -182,7 +193,7 @@ def add_part(part_type):
         current_user.add_part(part_type, part_id)
     else:
         if 'pc_build' not in session:
-            session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+            session['pc_build'] = PCBuild(title='temp')
         session['pc_build'][part_type] = part_id
         session.modified = True
 

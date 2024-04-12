@@ -10,11 +10,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     pc_build = db.relationship('PCBuild', back_populates='user')
 
-    def add_part(self, part_type, part_id):
-        self.pc_build[0].part_type.append(CPU.query.get(part_id))
-        flag_modified(self, 'pc_build')
-        db.session.commit()
-
     def get_build(self):
         return self.pc_build
     
