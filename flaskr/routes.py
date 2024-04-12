@@ -144,18 +144,24 @@ def build_gallery():
 def save_build():
     if current_user.is_authenticated:
         part_dict = {"cpu":CPU,"cpucooler":CPUCOOLER,"mobo":MOBO,"gpu":GPU,"ram":RAM,"drive":DRIVE,"psu":PSU, "case":CASE,"fans":FANS}
-        user_build = PCBuild(title='temp')
+        
+        
         if 'loadedBuild_id' in session:
             user_build = PCBuild.query.get(session['loadedBuild_id'])
-
+            
+        else:
+            user_build = PCBuild(title='tempor')
+            user_build.user_id = current_user.id
+            db.session.add(user_build)
+            db.session.commit()
+        
         for part_name in session['pc_build']:
 
-            curr_part = getattr(user_build, part_name, None)
-            print(curr_part)
-            curr_part.clear()
             item_id = session['pc_build'][part_name]
-            actual_item = part_dict[part_name].query.get(item_id)
-            curr_part.append(actual_item)
+            item = part_dict[part_name].query.get(item_id)
+            print(item)
+
+            user_build.add_part(item)
         
         db.session.commit()
         return redirect(url_for('build_gallery'))

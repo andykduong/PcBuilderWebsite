@@ -1,6 +1,6 @@
 import json
 from flaskr import db, app
-from flaskr.models import CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS
+from flaskr.models import CPU, CPUCOOLER, MOBO, GPU, RAM, DRIVE, PSU, CASE, FANS, PCBuild
 
 def reset_db(table):
     with app.app_context():
@@ -194,3 +194,10 @@ def repopulate_db():
                 db.session.add(fan_item)
 
     db.session.commit()
+
+def reset_pcbuilds(condition):
+    with app.app_context():
+        for pcbuild in PCBuild.query.all():
+            if condition in pcbuild.title:
+                db.session.delete(pcbuild)
+                db.session.commit()
