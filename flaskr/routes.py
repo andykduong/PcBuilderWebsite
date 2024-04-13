@@ -29,11 +29,18 @@ def index():
     if 'pc_build' not in session:
         session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
 
+    loadedBool = False
+    loadedBuild_title = "tmp"
+    if 'loadedBuild' in session:
+        loadedBool = True
+        loadedBuild_title = session['loadedBuild'][1]
+        print(session['loadedBuild'][1])
+
     for part in parts:
         part_model = part_dict[part['name']]
         part['chosen'] = part_model.query.get(session['pc_build'][part['add_url']])
 
-    return render_template("index.html", parts=parts)
+    return render_template("index.html", parts=parts, loadedBool=loadedBool, loadedBuild_title=loadedBuild_title)
 
 #For each individual picking page
 @app.route('/pick_<part_type>', methods=['GET', "POST"])
@@ -146,8 +153,8 @@ def save_build():
         part_dict = {"cpu":CPU,"cpucooler":CPUCOOLER,"mobo":MOBO,"gpu":GPU,"ram":RAM,"drive":DRIVE,"psu":PSU, "case":CASE,"fans":FANS}
         
         
-        if 'loadedBuild_id' in session:
-            user_build = PCBuild.query.get(session['loadedBuild_id'])
+        if 'loadedBuild' in session:
+            user_build = PCBuild.query.get(session['loadedBuild'][0])
             
         else:
             user_build = PCBuild(title='tempor')
@@ -160,6 +167,7 @@ def save_build():
             item_id = session['pc_build'][part_name]
             item = part_dict[part_name].query.get(item_id)
             print(item)
+            getattr(user_build, part_name).clear()
 
             user_build.add_part(item)
         
@@ -170,27 +178,33 @@ def save_build():
         return redirect(url_for('register'))
     
 
-@app.route('/load', methods=['POST'])
-def load_Build(build_id):
+@app.route('/load_build/<int:build_id>', methods=['POST'])
+def load_build(build_id):
     part_dict = [
-        {'name': 'CPU', 'add_url': 'cpu'},
-        {'name': 'CPU Cooler','add_url': 'cpucooler'},
-        {'name': 'Motherboard','add_url': 'mobo'},
-        {'name': 'Graphics Card', 'add_url': 'gpu'},
-        {'name': 'Memory', 'add_url': 'ram'},
-        {'name': 'Storage', 'add_url': 'drive'},
-        {'name': 'Power Supply', 'add_url': 'psu'},
-        {'name': 'Case', 'add_url': 'case'},
-        {'name': 'Fans', 'add_url': 'fans'},
+        {'name': 'CPU', 'tag': 'cpu'},
+        {'name': 'CPU Cooler','tag': 'cpucooler'},
+        {'name': 'Motherboard','tag': 'mobo'},
+        {'name': 'Graphics Card', 'tag': 'gpu'},
+        {'name': 'Memory', 'tag': 'ram'},
+        {'name': 'Storage', 'tag': 'drive'},
+        {'name': 'Power Supply', 'tag': 'psu'},
+        {'name': 'Case', 'tag': 'case'},
+        {'name': 'Fans', 'tag': 'fans'},
     ]
 
     user_build = PCBuild.query.get(build_id)
+    print(user_build)
+    for part_column in part_dict:
+        part = getattr(user_build, part_column['tag'])
+        #loads builds, if item is present in column, add to session, else set to None
+        if part:
+            session['pc_build'][part_column['tag']] = part[0].id
+        else:
+            session['pc_build'][part_column['tag']] = None
 
-    for part_column in user_build:
-        part = part_column[0]
-        print(part)
-        # current_type = part_dict[]
-        # session['pc_build'][] = part
+        session['loadedBuild'] = (build_id, user_build.title)
+        
+        session.modified = True
     return redirect(url_for('index'))
 
 #inside picking page, add button
