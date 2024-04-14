@@ -142,9 +142,7 @@ def part_picker(part_type):
 
 @app.route('/build_gallery')
 def build_gallery():
-    u = User.query.get(1)
-
-    return render_template("build_gallery.html", userBuilds=u.pc_build)
+    return render_template("build_gallery.html", userBuilds=current_user.pc_build)
 
 @app.route('/save_build', methods=['POST'])
 def save_build():
@@ -226,7 +224,7 @@ def remove_part(part_type):
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, pc_build={"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None})
+        user = User(username=form.username.data, email=form.email.data)
         user.set_pass(form.password.data)
         db.session.add(user)
         db.session.commit()
