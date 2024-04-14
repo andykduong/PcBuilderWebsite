@@ -34,7 +34,6 @@ def index():
     if 'loadedBuild' in session:
         loadedBool = True
         loadedBuild_title = session['loadedBuild'][1]
-        print(session['loadedBuild'][1])
 
     for part in parts:
         part_model = part_dict[part['name']]
@@ -166,7 +165,6 @@ def save_build():
 
             item_id = session['pc_build'][part_name]
             item = part_dict[part_name].query.get(item_id)
-            print(item)
             getattr(user_build, part_name).clear()
 
             user_build.add_part(item)
@@ -193,7 +191,7 @@ def load_build(build_id):
     ]
 
     user_build = PCBuild.query.get(build_id)
-    print(user_build)
+
     for part_column in part_dict:
         part = getattr(user_build, part_column['tag'])
         #loads builds, if item is present in column, add to session, else set to None
@@ -258,4 +256,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    if 'loadedBuild' in session:
+        session.pop('loadedBuild')
+    session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
     return redirect(url_for('index'))
