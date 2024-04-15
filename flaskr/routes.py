@@ -172,7 +172,6 @@ def save_build():
     else:
         flash('Please create an account to save a build.', 'danger')
         return redirect(url_for('register'))
-    
 
 @app.route('/load_build/<int:build_id>', methods=['POST'])
 def load_build(build_id):
@@ -201,6 +200,11 @@ def load_build(build_id):
         session['loadedBuild'] = (build_id, user_build.title)
         
         session.modified = True
+    return redirect(url_for('index'))
+
+@app.route('/change_price', methods=['POST'])
+def change_price():
+
     return redirect(url_for('index'))
 
 #inside picking page, add button
