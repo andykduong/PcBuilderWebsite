@@ -203,7 +203,7 @@ def load_build(build_id):
     return redirect(url_for('index'))
 
 @app.route('/change_price', methods=['POST'])
-def change_price():
+def change_price(part_type):
 
     return redirect(url_for('index'))
 
