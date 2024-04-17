@@ -13,11 +13,12 @@
       {% if loadedBool %}
         <h1>Build: {{ loadedBuild_title }}</h1>
       {% else %}
+      <form action="{{ url_for('index') }}" method="post">
       <div class="row row-cols-2" style="padding-bottom: 10px; text-align: left;">
-        <form action=""></form>
-        <h3 class="col">Build:</h3><input class="form-control col-9" type="text" placeholder=" Cool Build" aria-label="Title input">
-        <h3 class="col">Budget:</h3><input class="form-control col-9" type="text" placeholder=" $1000" aria-label="Budget input">
+        <h3 class="col">Build:</h3><input class="form-control col-9" name= "title_input" type="text" placeholder=" Cool Build" aria-label="Title input">
+        <h3 class="col">Budget:</h3><input class="form-control col-9" name="budget_input" type="text" placeholder=" $1000" aria-label="Budget input">
       </div>
+    </form>
       {% endif %}
       <div class="container">
       <div class="row" >

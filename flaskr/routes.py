@@ -7,9 +7,13 @@ from flask_login import current_user, login_user, logout_user
 
 
 @app.route('/')
-
 @app.route('/index')
 def index():
+
+    build_title = request.form.get('title_input', default='Please Name me!')
+    build_budget = request.form.get('budget_input', default='Unlimited!')
+    
+    print(build_title, build_budget)
     part_dict = { 
         'CPU': CPU, 'CPU Cooler': CPUCOOLER, 'Motherboard': MOBO, 'Graphics Card': GPU,
             'Memory': RAM, 'Storage': DRIVE, 'Power Supply': PSU, 'Case': CASE, 'Fans': FANS
