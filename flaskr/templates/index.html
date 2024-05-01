@@ -13,24 +13,38 @@
       {% if loadedBool %}
         <h1>Build: {{ loadedBuild_title }}</h1>
       {% else %}
-      <form action="{{ url_for('index') }}" method="post">
-      <div class="row row-cols-2" style="padding-bottom: 10px; text-align: left;">
-        <h3 class="col">Build:</h3><input class="form-control col-9" name= "title_input" type="text" placeholder=" Cool Build" aria-label="Title input">
+      <div class="container mt-5">
+        <form action="{{url_for('edit_title')}}" method="post">
+          <div class="row align-items-center">
+            <div class="col-md-auto">
+              <h2>Build:</h2>
+            </div>
+            <div class="col">
+              <input class="form-control col-9" name= "title_input" type="text" placeholder="{{loadedBuild_title}}" aria-label="Title input">
+            </div>
+            <div class="col-md-auto">
+              <button type="submit" class="btn btn-primary"> Edit Title </button>
+            </div>
+          </div>
+        </form>
+    </div>
+      <!-- <div class="row" style="padding-bottom: 10px; text-align: left;"> -->
+        <!-- <div class="col">
+        <form action="{{ url_for('index') }}" method="post">
+          <h3 class="col">Build:</h3> 
+          
+        </form> -->
+      <!-- </div> -->
+
         <h3 class="col">Budget:</h3><input class="form-control col-9" name="budget_input" type="text" placeholder=" $1000" aria-label="Budget input">
+      
       </div>
-    </form>
       {% endif %}
       <div class="container">
       <div class="row" >
           <div class="col">
             <form action="{{ url_for('save_build') }}" method="post">
               <button type="submit" class="btn btn-primary"> Save
-              </button>
-            </form>
-          </div>
-          <div class="col">
-            <form action="{{ url_for('save_build') }}" method="post">
-              <button type="submit" class="btn btn-primary"> Edit Name
               </button>
             </form>
           </div>

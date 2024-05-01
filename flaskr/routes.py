@@ -32,9 +32,10 @@ def index():
 
     if 'pc_build' not in session:
         session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+        session['title'] = 'Unnamed'
 
     loadedBool = False
-    loadedBuild_title = "tmp"
+    loadedBuild_title = "Gimme a cool name!"
     if 'loadedBuild' in session:
         loadedBool = True
         loadedBuild_title = session['loadedBuild'][1]
@@ -43,7 +44,7 @@ def index():
         part_model = part_dict[part['name']]
         part['chosen'] = part_model.query.get(session['pc_build'][part['add_url']])
 
-    return render_template("index.html", parts=parts, loadedBool=loadedBool, loadedBuild_title=loadedBuild_title)
+    return render_template("index.html", parts=parts, loadedBool=loadedBool, loadedBuild_title=loadedBuild_title, )
 
 #For each individual picking page
 @app.route('/pick_<part_type>', methods=['GET', "POST"])
@@ -158,7 +159,7 @@ def save_build():
             user_build = PCBuild.query.get(session['loadedBuild'][0])
             
         else:
-            user_build = PCBuild(title='tempor')
+            user_build = PCBuild(title=session['title'])
             user_build.user_id = current_user.id
             db.session.add(user_build)
             db.session.commit()
@@ -176,6 +177,13 @@ def save_build():
     else:
         flash('Please create an account to save a build.', 'danger')
         return redirect(url_for('register'))
+
+@app.route('/edit_title', methods=['POST'])
+def edit_title():
+    print('hi')
+    session['title'] = request.form['title_input']
+
+    return redirect(url_for('index'))
 
 @app.route('/load_build/<int:build_id>', methods=['POST'])
 def load_build(build_id):
@@ -265,4 +273,5 @@ def logout():
     if 'loadedBuild' in session:
         session.pop('loadedBuild')
     session['pc_build'] = {"cpu":None,"cpucooler":None,"mobo":None,"gpu":None,"ram":None,"drive":None,"psu":None, "case":None,"fans":None}
+    session['title'] = "Unnamed"
     return redirect(url_for('index'))
